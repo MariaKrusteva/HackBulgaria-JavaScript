@@ -4,9 +4,6 @@ $(document).ready(function() {
 
   var time;
 
-  var minutes = $("#minutes").val(),
-      seconds = $("#seconds").val();
-
   var setTime = function(minFirst, minSecond, secFirst, secSecond){
     $("#minutes-first-digit").text(minFirst);
     $("#minutes-second-digit").text(minSecond);
@@ -14,11 +11,13 @@ $(document).ready(function() {
     $("#seconds-second-digit").text(secSecond);
   };
 
-  setTime(0,0,0,0);
+  setTime(0, 0, 0, 0);
 
 
   $("#btn-up").on("click", function(){
-    var countingMinutes = 0,
+    var minutes = $("#minutes").val(),
+        seconds = $("#seconds").val(),
+        countingMinutes = 0,
         countingSeconds = 0;
 
     time = window.setInterval(function(){
@@ -41,8 +40,8 @@ $(document).ready(function() {
   });
 
   $("#btn-down").on("click", function(){
-    var countingMinutes = minutes,
-        countingSeconds = seconds;
+    var countingMinutes = $("#minutes").val(),
+        countingSeconds = $("#seconds").val();
 
     time = window.setInterval(function(){
       countingSeconds -= 1;
