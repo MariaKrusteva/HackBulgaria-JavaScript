@@ -66,6 +66,4 @@ $(document).ready(function (){
     img.src = localStorage.getItem(name);
   })
 
-
-
 })
