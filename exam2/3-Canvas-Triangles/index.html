@@ -11,8 +11,16 @@
     <select id="img-load"></select>
     <button id="btn-load" class="btn btn-primary">Load</button>
 
+    <script id="template" type="text/x-handlebars-template">
+        {{#each items}}
+        <option>{{this.name}}</option>
+        {{/each}}
+
+    </script>
+
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/handlebars/handlebars.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
