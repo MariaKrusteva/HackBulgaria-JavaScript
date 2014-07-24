@@ -9,6 +9,7 @@ $(document).ready(function (){
   var height = canvas.height,
       width = canvas.width;
   var points = [],
+      allItems = [],
       name;
 
   function Point(x, y, context){
@@ -28,6 +29,22 @@ $(document).ready(function (){
     context.lineTo(c.x, c.y);
     context.fill();
   }
+
+  var getAllItems = (function(){
+    for(var i in window.localStorage){
+       allItems.push({name: i});
+    }
+  }())
+
+  var loadAllImages = function(data){
+    var template = $("#template").html();
+    var f = Handlebars.compile(template);
+    var context = {items: data};
+    $("#img-load").append(f(context));
+  };
+
+  loadAllImages(allItems);
+
 
   $("#canvas").on("click", function(){
     var x = event.pageX;
@@ -50,7 +67,9 @@ $(document).ready(function (){
   $("#btn-save").on("click", function(){
     name = prompt("Name for the picture:")
     localStorage.setItem(name, canvas.toDataURL());
-    $("#img-load").append("<option>" + name + "</option>");
+    allItems.push({"name": name});
+    $("#img-load").empty();
+    loadAllImages(allItems);
   })
 
   $("#img-load").on("click", function(){
