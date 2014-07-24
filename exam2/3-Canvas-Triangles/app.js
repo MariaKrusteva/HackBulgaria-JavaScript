@@ -1,9 +1,11 @@
+/* global $, Handlebars */
+
 $(document).ready(function (){
   "use strict";
-  var canvas = document.getElementById('canvas');
+  var canvas = document.getElementById("canvas");
   canvas.width = 800;
   canvas.height = 400;
-  var context = canvas.getContext('2d');
+  var context = canvas.getContext("2d");
   context.fillStyle = "black";
 
   var height = canvas.height,
@@ -28,13 +30,13 @@ $(document).ready(function (){
     var c = points.pop();
     context.lineTo(c.x, c.y);
     context.fill();
-  }
+  };
 
   var getAllItems = (function(){
     for(var i in window.localStorage){
        allItems.push({name: i});
     }
-  }())
+  }());
 
   var loadAllImages = function(data){
     var template = $("#template").html();
@@ -54,35 +56,35 @@ $(document).ready(function (){
     if (points.length === 3){
       drawTriangle(points);
     }
-  })
+  });
 
   $("#triangle-color").on("change", function(){
     context.fillStyle = this.value;
-  })
+  });
 
   $("#btn-clear").on("click", function(){
     context.clearRect(0, 0, width, height);
-  })
+  });
 
   $("#btn-save").on("click", function(){
-    name = prompt("Name for the picture:")
+    name = prompt("Name for the picture:");
     localStorage.setItem(name, canvas.toDataURL());
     allItems.push({"name": name});
     $("#img-load").empty();
     loadAllImages(allItems);
-  })
+  });
 
   $("#img-load").on("click", function(){
     name = this.value;
-  })
+  });
 
   $("#btn-load").on("click", function(){
     context.clearRect(0, 0, width, height);
     var img = new Image();
     img.onload = function(){
       context.drawImage(img,0,0);
-    }
+    };
     img.src = localStorage.getItem(name);
-  })
+  });
 
-})
+});
