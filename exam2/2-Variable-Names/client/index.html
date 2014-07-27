@@ -16,8 +16,10 @@
 
     <script id="template" type="text/x-handlebars-template">
       {{#each input}}
-      <input class="input" id={{this.nameId}} value="{{this.name}}" style="width:51%"/>
-      <button id="btn-{{this.nameId}}" class="btn btn-success" disabled>update</button>
+      <div>
+        <input class="input" id={{this.nameId}} value="{{this.name}}" style="width:51%"/>
+        <button id="btn-{{this.nameId}}" class="btn btn-success" disabled>update</button>
+      </div>
       {{/each}}
     </script>       
 
