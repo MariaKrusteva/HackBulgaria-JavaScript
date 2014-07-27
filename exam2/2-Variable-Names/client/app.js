@@ -1,18 +1,19 @@
 /* global $, Handlebars */
 $(document).ready(function(){
   "use strict";
+  var baseUrl = "http://localhost:8080";
 
-  var fillInput = function(data){
-
-    var template = $("#template").html();
-    var f = Handlebars.compile(template);
-    var context = {input: data};
+  function fillInput(data){
+    var
+      template = $("#template").html(),
+      f = Handlebars.compile(template),
+      context = {input: data};
     $("#names").append(f(context));
   };
 
-  var listAll = function(){
+  function listAll(){
     $.ajax({
-      url: "http://localhost:8080/names",
+      url: baseUrl + "/names",
       type: "GET"
     }).done(function(result){
       fillInput(result);
@@ -21,10 +22,9 @@ $(document).ready(function(){
 
   listAll();
 
-  var update = function(name, id){
-
+  function update(name, id){
     $.ajax({
-      url: "http://localhost:8080/name",
+      url: baseUrl + "/name",
       type: "POST",
       contentType: "application/json",
       dataType: "json",
@@ -38,17 +38,19 @@ $(document).ready(function(){
       })
   };
 
+  $(document).on("click", "button", function() {
+    var
+      $input = $(this).parent().find(".input"),
+      name = $input.val(),
+      nameId = $input.attr("id");
+
+    console.log(name, nameId);
+    update(name, nameId)
+  });
+
   $(document).on("change", ".input", function(){
-    var name = $(this).val();
     var id = $(this).attr("id");
     $("#btn-" + id).removeAttr("disabled");
-
-    $("#btn-" + id).on("click", function(){
-      update(name, id);
-    });
-
-
-
   });
 
 });
