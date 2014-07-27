@@ -13,6 +13,12 @@ var calculateMaxScore = function(arr1, arr2){
   return arr1.shift() * arr2.shift() + calculateMaxScore(arr1, arr2);
 };
 
+var sorting = function(arr){
+  return arr.sort(function(a, b){
+    return a - b;
+  });
+};
+
 var beerAndFries = function (items) {
   var beerScores = [],
       friesScores = [];
@@ -25,11 +31,7 @@ var beerAndFries = function (items) {
     }
   });
 
-  return calculateMaxScore(beerScores.sort(function(a, b){
-    return a - b;
-  }), friesScores.sort(function(a, b){
-    return a - b;
-  }));
+  return calculateMaxScore(sorting(beerScores), sorting(friesScores));
 };
 
 exports.beerAndFries = beerAndFries;
