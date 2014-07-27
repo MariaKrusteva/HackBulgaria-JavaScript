@@ -1,13 +1,8 @@
 "use strict";
 
 var calculateMaxScore = function(arr1, arr2){
-
   if(arr1.length === 0 || arr2.length === 0){
     return 0;
-  }
-
-  if(arr1.length === 1 || arr2.length === 1){
-    return arr1[0] * arr2[0];
   }
 
   return arr1.shift() * arr2.shift() + calculateMaxScore(arr1, arr2);
