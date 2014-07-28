@@ -1,18 +1,19 @@
-/* global $, Handlebars */
+/* global $, Handlebars, prompt */
 
 $(document).ready(function (){
   "use strict";
-  var canvas = document.getElementById("canvas");
-  canvas.width = 800;
-  canvas.height = 400;
-  var context = canvas.getContext("2d");
-  context.fillStyle = "black";
+  var
+    canvas = document.getElementById("canvas"),
+    context = canvas.getContext("2d"),
+    height = 400,
+    width = 800,
+    points = [],
+    allItems = [],
+    name;
 
-  var height = canvas.height,
-      width = canvas.width;
-  var points = [],
-      allItems = [],
-      name;
+  canvas.height = height;
+  canvas.width = width;
+  context.fillStyle = "black";
 
   function Point(x, y, context){
     this.x = x;
@@ -21,7 +22,7 @@ $(document).ready(function (){
 
   }
 
-  var drawTriangle = function(points){
+  function drawTriangle(points){
     context.beginPath();
     var a = points.pop();
     context.moveTo(a.x, a.y);
@@ -30,28 +31,35 @@ $(document).ready(function (){
     var c = points.pop();
     context.lineTo(c.x, c.y);
     context.fill();
-  };
+  }
 
-  var getAllItems = (function(){
-    for(var i in window.localStorage){
-       allItems.push({name: i});
-    }
+  function parse(){
+    return JSON.parse(localStorage.saves);
+  }
+
+  (function getAllItems() {
+    var saves = parse() || {};
+    Object.keys(saves).forEach(function(saveName) {
+      allItems.push({name: saveName});
+    });
   }());
 
-  var loadAllImages = function(data){
-    var template = $("#template").html();
-    var f = Handlebars.compile(template);
-    var context = {items: data};
+  function loadAllImages(data){
+    var
+      template = $("#template").html(),
+      f = Handlebars.compile(template),
+      context = {items: data};
     $("#img-load").append(f(context));
-  };
+  }
 
   loadAllImages(allItems);
 
 
   $("#canvas").on("click", function(){
-    var x = event.pageX;
-    var y = event.pageY;
-    var point = new Point(x, y, context);
+    var
+      x = event.pageX,
+      y = event.pageY,
+      point = new Point(x, y, context);
     points.push(point);
     if (points.length === 3){
       drawTriangle(points);
@@ -66,10 +74,17 @@ $(document).ready(function (){
     context.clearRect(0, 0, width, height);
   });
 
+
   $("#btn-save").on("click", function(){
     name = prompt("Name for the picture:");
-    localStorage.setItem(name, canvas.toDataURL());
+    if(!localStorage.saves){
+      localStorage.saves = JSON.stringify({});
+    }
+    var saves = parse();
+    saves[name] = canvas.toDataURL();
+    localStorage.saves = JSON.stringify(saves);
     allItems.push({"name": name});
+
     $("#img-load").empty();
     loadAllImages(allItems);
   });
@@ -80,11 +95,13 @@ $(document).ready(function (){
 
   $("#btn-load").on("click", function(){
     context.clearRect(0, 0, width, height);
-    var img = new Image();
+    var
+      img = new Image(),
+      saves = parse();
     img.onload = function(){
       context.drawImage(img,0,0);
     };
-    img.src = localStorage.getItem(name);
+    img.src = saves[name];
   });
 
 });
