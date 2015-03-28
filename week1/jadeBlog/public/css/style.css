@@ -1,0 +1,36 @@
+body{
+    background-image: url("../img/background.jpg");
+    font-family: Helvetica;
+}
+
+.header{
+    border-bottom: solid 1px black;
+    position: relative;
+    left: 300px;
+    color: white;
+}
+
+.hateJS{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 200px;
+    background-color: white;
+
+}
+
+.block{
+    position: relative;
+    left: 300px;
+    color: white;
+}
+
+.hateCSS{
+    width: 800px;
+}
+
+.cinagin{
+    width:200px;
+    height: 200px;
+}
